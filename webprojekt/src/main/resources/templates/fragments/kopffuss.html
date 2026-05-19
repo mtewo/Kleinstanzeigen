@@ -1,0 +1,23 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+    
+        <div th:fragment="kopf">
+            <nav>
+                <h1>Kleinstanzeigen</h1>
+                <div>
+                    <a th:href="@{?sprache=de}">DE</a>
+                    <a th:href="@{?sprache=en}">EN</a>
+                    <a th:href="@{?sprache=nl}">NL</a>
+                </div>
+            </nav>
+        </div>
+
+        <div th:fragment="fuss">
+            <footer>
+                <p> 2026 Kleinstanzeigen</p>
+            </footer>
+        </div>
+    </body>
+</html>

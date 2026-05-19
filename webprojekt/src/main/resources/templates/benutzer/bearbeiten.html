@@ -2,28 +2,80 @@
 
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+    <head> <link rel="stylesheet" th:href="@{/css/benutzer.css}">
+        
+    </head>
     <body>
-        <h1>Benutzer <span th:text="${loginname}">Platzhalter</span> bearbeiten...</h1>
-        <form th:object="${formular}" method="post" th:action="@{'/admin/benutzer/' + ${loginname}}">
-            <label>Name:</label><input type="text" th:field="*{name}"><br>
-            <label>E-Mail:</label><input type="text" th:field="*{eMail}"><br>
-            <label>Adresse:</label><input type="text" th:field="*{adresse}"><br>
-            <label>Rolle:</label>
-            <select name="Rollen" th:field="*{rolle}">
-                <option value="" selected="selected"> </option>
-                <option value="ADMINISTRATOR">Administrator</option>
-                <option value="ANBIETER">Anbieter</option>
-                <option value="TESTER">Tester</option>
-            </select><br>
-            <label>Passwort:</label><input type="password" th:field="*{passwort}"><br>
-            <label>Passwort (Wiederholung):</label><input type="password" th:field="*{passwortWiederholung}"><br>
-            <label>aktiviert</label><input type="checkbox" th:field="*{aktiviert}">
-            <br><br>
-            <input type="reset" value="Abbruch"><br>
-            <input type="submit" value="OK">
-
+        <div th:replace="~{fragments/kopffuss :: kopf}"></div>
+        
+        <main>
+            <!--<h1>Benutzer <span th:text="${loginname}">Platzhalter</span> bearbeiten...</h1>-->
+            <h2 th:text="#{benutzer.bearbeiten.titel(${loginname})}">Platzhalter</h2>
+            <form th:object="${formular}" method="post" th:action="@{'/admin/benutzer/' + ${loginname}}">
             
+                <div class="feld">
+                    <label th:text="#{benutzer.name}">Name:</label>
+                    <div class="input-bereich">
+                        <input type="text" th:field="*{name}" th:classappend="${#fields.hasErrors('name')} ? 'fehler'">
+                        <span class="fehler-text" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+                    </div>
+                </div>
 
-        </form>
+                <div class="feld">
+                    <label th:text="#{benutzer.email}">E-Mail:</label>
+                    <div class="input-bereich">
+                        <input type="text" th:field="*{eMail}" th:classappend="${#fields.hasErrors('eMail')} ? 'fehler'">
+                        <span class="fehler-text" th:if="${#fields.hasErrors('eMail')}" th:errors="*{eMail}"></span>
+                    </div>
+                </div>
+
+                <div class="feld">
+                    <label th:text="#{benutzer.adresse}">Adresse:</label>
+                    <div class="input-bereich">
+                        <input type="text" th:field="*{adresse}">
+                    </div>
+                </div>
+
+                <div class="feld">
+                    <label th:text="#{benutzer.rolle}">Rolle:</label>
+                    <div class="input-bereich">
+                        <select th:field="*{rolle}">
+                            <option value=""> </option>
+                            <option value="ADMINISTRATOR">Administrator</option>
+                            <option value="ANBIETER">Anbieter</option>
+                            <option value="TESTER">Tester</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="feld">
+                    <label th:text="#{benutzer.losung}">Passwort:</label>
+                    <div class="input-bereich">
+                        <input type="password" th:field="*{passwort}" th:classappend="${#fields.hasErrors('passwort')} ? 'fehler'">
+                        <span class="fehler-text" th:if="${#fields.hasErrors('passwort')}" th:errors="*{passwort}"></span>
+                    </div>
+                </div>
+
+                <div class="feld">
+                    <label th:text="#{benutzer.losungwh}">Passwort (Wiederholung):</label>
+                    <div class="input-bereich">
+                        <input type="password" th:field="*{passwortWiederholung}" th:classappend="${#fields.hasErrors('passwortWiederholung')} ? 'fehler'">
+                        <span class="fehler-text" th:if="${#fields.hasErrors('passwortWiederholung')}" th:errors="*{passwortWiederholung}"></span>
+                    </div>
+                </div>
+
+                <div class="feld-checkbox">
+                    <label th:text="#{benutzer.aktiviert}">aktiviert</label>
+                    <input type="checkbox" th:field="*{aktiviert}">
+                </div>
+
+                <div class="buttons">
+                    <input type="reset" th:value="#{benutzer.liste.zeile.abbrechen}">
+                    <input type="submit" th:value="#{benutzer.liste.zeile.ok}">
+                </div>
+
+            </form>
+        </main>
+        <div th:replace="~{fragments/kopffuss :: fuss}"></div>
     </body>
 </html>

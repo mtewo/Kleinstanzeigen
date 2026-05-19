@@ -1,0 +1,111 @@
+
+.fehler {
+    border: 2px solid red;
+    background-color: #ffe6e6;
+}
+form {
+    width: 700px;
+    margin: 20px;
+}
+
+.feld {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    align-items: start;
+    margin-bottom: 15px;
+}
+
+label {
+    font-size: 1.2em;
+    padding-top: 5px;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 5px;
+    font-size: 1em;
+    box-sizing: border-box;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    
+}
+
+select {
+    padding: 5px;
+    font-size: 1em;
+}
+
+
+.fehler-text {
+    color: red;
+    font-size: 0.9em;
+}
+
+.feld-checkbox {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.buttons input {
+    padding: 5px 20px;
+}
+
+/* Kopfzeile */
+nav {
+    background-color: #290e6f;
+    color: white;
+    padding: 15px 20px;
+    /*margin-bottom: 20px;*/
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav div a {
+    color: white;
+    text-decoration: none;
+    margin-left: 10px;
+    font-size: 1em;
+}
+
+nav div a:hover {
+    text-decoration: underline;
+}
+
+nav h2 {
+    margin: 0;
+    color: white;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+
+main {
+    flex: 1;
+    padding: 20px 40px;
+    background-color: #cfc7fd;
+}
+
+
+footer {
+    background-color: #290e6f;
+    color: rgb(255, 255, 255);
+    padding: 15px 20px;
+    margin-top: 30px;
+    text-align: center;
+    margin-top: auto;
+}

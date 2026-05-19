@@ -7,11 +7,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
+
+import jakarta.validation.Valid;
 
 
 @Controller
@@ -51,15 +54,36 @@ public class BenutzerController {
     }
 
     @PostMapping("/admin/benutzer/{loginname}")
-    public String postEingaben (@PathVariable String loginname, @ModelAttribute BenutzerFormular formular, 
-        @ModelAttribute("formularMap") Map <String, BenutzerFormular> formularMap, Model model){
+    public String postEingaben (@PathVariable String loginname, @Valid @ModelAttribute ("formular") BenutzerFormular formular, 
+        BindingResult formularErrors, @ModelAttribute("formularMap") Map <String, BenutzerFormular> formularMap, 
+        Model model){
 
         model.addAttribute("loginname", loginname);
-        model.addAttribute("formular", formular);
+        //model.addAttribute("formular", formular);
+
+        if (!formular.getPasswort().isEmpty() || !formular.getPasswortWiederholung().isEmpty()){
+            
+            if(!formular.getPasswort().equals(formular.getPasswortWiederholung())){
+
+                formularErrors.rejectValue(
+                    "passwortWiederholung",           
+                    "benutzer.fehler.passwortwiederholung",  
+                    "Passworteingaben stimmen nicht überein" 
+                );
+
+            }
+        }
+
+        if (formularErrors.hasErrors()) {
+            logger.info("POST Validierungsfehler: {}", formularErrors.getAllErrors());
+            return "benutzer/bearbeiten";
+        }
 
         formularMap.put(loginname, formular);
 
+
         logger.info("POST formular: {}", formular.toString());
+
 
         return "benutzer/bearbeiten"; 
     }

@@ -1,12 +1,20 @@
 package de.hsrm.mi.web.webprojekt.benutzer.ui;
 
+import de.hsrm.mi.web.webprojekt.validators.GutesPasswort;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 
 public class BenutzerFormular {
-    
+    @NotBlank
+    @Size(min=3,max=60, message="Größe muss zwischen 3 und 60 sein")
     private String name = "";
+    @Email(message="muss eine korrekt formatierte E-Mail-Adresse sein" )
     private String eMail = "";
     private String adresse = "";
     private String rolle = "";
+    @GutesPasswort (message="Das Passwort darf Zweiundvierzig oder 42 nicht enthälten")
     private String passwort = "";
     private String passwortWiederholung = "";
     private boolean aktiviert = true;
