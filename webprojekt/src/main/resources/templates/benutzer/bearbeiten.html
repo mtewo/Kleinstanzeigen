@@ -12,6 +12,7 @@
             <!--<h1>Benutzer <span th:text="${loginname}">Platzhalter</span> bearbeiten...</h1>-->
             <h2 th:text="#{benutzer.bearbeiten.titel(${loginname})}">Platzhalter</h2>
             <form th:object="${formular}" method="post" th:action="@{'/admin/benutzer/' + ${loginname}}">
+                <input type="hidden" th:field="*{version}">
             
                 <div class="feld">
                     <label th:text="#{benutzer.name}">Name:</label>

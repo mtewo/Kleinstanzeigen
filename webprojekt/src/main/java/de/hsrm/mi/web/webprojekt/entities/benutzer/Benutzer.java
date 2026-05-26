@@ -1,24 +1,50 @@
-package de.hsrm.mi.web.webprojekt.benutzer.ui;
+package de.hsrm.mi.web.webprojekt.entities.benutzer;
 
 import de.hsrm.mi.web.webprojekt.validators.GutesPasswort;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Version;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 
-public class BenutzerFormular {
+@Entity
+public class Benutzer {
+    @Id
+    public String loginName;
+
     @NotBlank
     @Size(min=3,max=60, message="Größe muss zwischen 3 und 60 sein")
     private String name = "";
+
+    @NotBlank
     @Email(message="muss eine korrekt formatierte E-Mail-Adresse sein" )
     private String eMail = "";
+
+    @NotBlank
     private String adresse = "";
+    @NotBlank
     private String rolle = "";
+    @NotBlank
     @GutesPasswort (message="Das Passwort darf Zweiundvierzig oder 42 nicht enthälten")
     private String passwort = "";
-    private String passwortWiederholung = "";
+
     private boolean aktiviert = true;
-    private long version;
+    
+    @Version
+    private long version = 0;
+
+    public Benutzer() {} // leerer Konstruktor für JPA !Pflicht!
+
+    
+    public String getLoginName() {
+        return loginName;
+    }
+
+    public void setLoginName(String loginName) {
+        this.loginName = loginName;
+    }
 
     public String getName() {
         return name;
@@ -68,29 +94,50 @@ public class BenutzerFormular {
         this.aktiviert = aktieviert;
     }
 
-    public String getPasswortWiederholung() {
-        return passwortWiederholung;
+    public long getVersion(){
+        return version;
     }
 
-    public void setPasswortWiederholung(String passwortWiederholung) {
-        this.passwortWiederholung = passwortWiederholung;
-    }
-
-    public long getVersion() {
-    return version;
-    }
-
-    public void setVersion(long version) {
+    public void setVersion(long version){
         this.version = version;
     }
+
 
      @Override
     public String toString() {
         return "BenutzerFormular [name=" + name + ", eMail=" + eMail + ", adresse=" + adresse + ", rolle=" + rolle
-                + ", passwort=" + passwort + ", passwortWiederholung=" + passwortWiederholung + ", aktiviert="
+                + ", passwort=" + passwort +  ", aktiviert="
                 + aktiviert + "]";
     }
 
 
+     @Override
+     public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((loginName == null) ? 0 : loginName.hashCode());
+        return result;
+     }
 
+
+     @Override
+     public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Benutzer other = (Benutzer) obj;
+        if (loginName == null) {
+            if (other.loginName != null)
+                return false;
+        } else if (!loginName.equals(other.loginName))
+            return false;
+        return true;
+     }
+
+    
+
+   
 }

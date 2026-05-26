@@ -6,12 +6,20 @@
         <div th:fragment="kopf">
             <nav>
                 <h1>Kleinstanzeigen</h1>
+                <a th:href="@{/admin/benutzer}" th:text="#{benutzer.liste.titel}">
+                    Benutzer
+                </a>
                 <div>
                     <a th:href="@{?sprache=de}">DE</a>
                     <a th:href="@{?sprache=en}">EN</a>
                     <a th:href="@{?sprache=nl}">NL</a>
                 </div>
             </nav>
+
+            <div class="info" th:if="${info}" th:text="${info}">
+                Fehlermeldung
+            </div>
+
         </div>
 
         <div th:fragment="fuss">
