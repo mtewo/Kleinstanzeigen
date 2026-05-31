@@ -1,8 +1,16 @@
 package de.hsrm.mi.web.webprojekt.entities.benutzer;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import de.hsrm.mi.web.webprojekt.entities.anzeige.Anzeige;
 import de.hsrm.mi.web.webprojekt.validators.GutesPasswort;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Version;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -35,7 +43,16 @@ public class Benutzer {
     @Version
     private long version = 0;
 
+    
+    @OneToMany (mappedBy = "anbieter", cascade = CascadeType.REMOVE)
+    private List<Anzeige> anzeigen = new ArrayList<>();
+
+    @ManyToMany (mappedBy = "besteller", fetch = FetchType.EAGER)
+    private List<Anzeige> bestellungen = new ArrayList<>();
+
     public Benutzer() {} // leerer Konstruktor für JPA !Pflicht!
+
+
 
     
     public String getLoginName() {
@@ -136,6 +153,22 @@ public class Benutzer {
             return false;
         return true;
      }
+
+    public List<Anzeige> getAnzeigen() {
+        return anzeigen;
+    }
+
+    public void setAnzeigen(List<Anzeige> anzeigen) {
+        this.anzeigen = anzeigen;
+    }
+
+    public List<Anzeige> getBestellungen() {
+        return bestellungen;
+    }
+
+    public void setBestellungen(List<Anzeige> bestellungen) {
+        this.bestellungen = bestellungen;
+    }
 
     
 

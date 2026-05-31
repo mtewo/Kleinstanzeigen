@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" th:href="@{/css/benutzer.css}">
+</head>
+<body>
+ 
+    <div th:replace="~{fragments/kopffuss :: kopf}"></div>
+ 
+    <main>
+        <h2 th:text="#{anzeige.bearbeiten.titel(${anzeigeid})}">Anzeige bearbeiten</h2>
+ 
+        <form th:object="${formular}" method="post" th:action="@{'/admin/anzeige/' + ${anzeigeid}}">
+            <input type="hidden" th:field="*{version}">
+
+            <div class="feld">
+                <label th:text="#{anzeige.anbieter}">Anbieter:</label>
+                <span th:text="${anzeige?.anbieter?.name ?: '(unbekannt)'}">Anbieter</span>
+            </div>
+ 
+            <div class="feld">
+                <label th:text="#{anzeige.titel}">Titel:</label>
+                <div class="input-bereich">
+                    <input type="text" th:field="*{titel}"
+                           th:classappend="${#fields.hasErrors('titel')} ? 'fehler'">
+                    <span class="fehler-text" th:if="${#fields.hasErrors('titel')}"
+                          th:errors="*{titel}"></span>
+                </div>
+            </div>
+ 
+            <div class="feld">
+                <label th:text="#{anzeige.beschreibung}">Beschreibung:</label>
+                <div class="input-bereich">
+                    <input type="text" th:field="*{beschreibung}"
+                           th:classappend="${#fields.hasErrors('beschreibung')} ? 'fehler'">
+                    <span class="fehler-text" th:if="${#fields.hasErrors('beschreibung')}"
+                          th:errors="*{beschreibung}"></span>
+                </div>
+            </div>
+ 
+            <div class="feld">
+                <label th:text="#{anzeige.preis}">Preis:</label>
+                <div class="input-bereich">
+                    <input type="text" th:field="*{preis}"
+                           th:classappend="${#fields.hasErrors('preis')} ? 'fehler'">
+                    <span class="fehler-text" th:if="${#fields.hasErrors('preis')}"
+                          th:errors="*{preis}"></span>
+                </div>
+            </div>
+ 
+            <div class="feld">
+                <label th:text="#{anzeige.anzahl}">Anzahl:</label>
+                <div class="input-bereich">
+                    <input type="text" th:field="*{anzahl}"
+                           th:classappend="${#fields.hasErrors('anzahl')} ? 'fehler'">
+                    <span class="fehler-text" th:if="${#fields.hasErrors('anzahl')}"
+                          th:errors="*{anzahl}"></span>
+                </div>
+            </div>
+ 
+            <div class="feld">
+                <label th:text="#{anzeige.ablaufdatum}">Ablaufdatum:</label>
+                <div class="input-bereich">
+                    <input type="date" th:field="*{ablaufdatum}"
+                           th:classappend="${#fields.hasErrors('ablaufdatum')} ? 'fehler'">
+                    <span class="fehler-text" th:if="${#fields.hasErrors('ablaufdatum')}"
+                          th:errors="*{ablaufdatum}"></span>
+                </div>
+            </div>
+ 
+            <div class="buttons">
+                <input type="reset" th:value="#{benutzer.liste.zeile.abbrechen}">
+                <input type="submit" th:value="#{benutzer.liste.zeile.ok}">
+            </div>
+        </form>
+    </main>
+ 
+    <div th:replace="~{fragments/kopffuss :: fuss}"></div>
+ 
+</body>
+</html>

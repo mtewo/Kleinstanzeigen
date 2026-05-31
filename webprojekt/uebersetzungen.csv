@@ -8,11 +8,12 @@ benutzer.rolle.kunde;customer;Kunde;klant
 benutzer.rolle.gesperrt;blocked;gesperrt;geblokkeerd
 benutzer.losung;Password;Passwort;Wachtwoord
 benutzer.losungwh;Repeat password;Passwort (Wiederh.);Wachtwoord (herhaling)
+benutzer.aktiviert;activated;aktiviert;activeren
 benutzer.fehler.passwortungeeignet;password suboptimal;Passwort ist nicht entsprechend;dit wachtwoord is echt ongeschikt
 benutzer.fehler.passwortwiederholung;passwords do not match;Passworteingaben stimmen nicht überein;wachtwoorden verschillen onderling
-benutzer.aktiviert;activated;aktiviert;geactiveerd
 benutzer.bearbeiten.titel;Edit user {0};Benutzer {0} bearbeiten;Gebruikersprofiel {0} bewerken
-
+benutzer.bestellungen.titel; Orders;Bestellungen;bestelling
+;;;
 benutzer.liste.titel;User List;Benutzerliste;Lijst van alle gebruikers
 benutzer.liste.spalte.loginname;Login;Login;Inlognaam
 benutzer.liste.spalte.name;Name;Name;Naam
@@ -20,10 +21,33 @@ benutzer.liste.spalte.email;E-Mail;E-Mail;E-mailadres
 benutzer.liste.spalte.rolle;Role;Rolle;Rol
 benutzer.liste.spalte.bearbeiten;edit;bearbeiten;bewerken
 benutzer.liste.spalte.loeschen;delete;löschen;wissen
-
+;;;
 benutzer.liste.zeile.ok;ok;ok;ok
 benutzer.liste.zeile.abbrechen;cancel;abbrechen;annuleren
-
-GutesPasswort.formular.passwort;password must not contain 42 or fortytwo;Das Passwort darf Zweiundvierzig oder 42 nicht enthalten;wachtwoord mag geen 42 of tweeënveertig bevatten
-Size.formular.name;name must be between 3 and 60 letters;Name muss zwischen 3 und 60 Zeichen sein;naam moet tussen 3 en 60 letters zijn
-Email.formular.eMail;must be a valid email address;muss eine korrekt formatierte E-Mail-Adresse sein;moet een geldig e-mailadres zijn
+;;;
+kopf.anzeigen;Ads;Anzeigen;Advertanties
+kopf.benutzer;Users;Benutzer;Gebruikers
+;;;
+anzeige.liste.titel;Ads;Anzeigen;Advertanties
+anzeige.liste.spalte.anbieter;supplier;Anbieter;aanbieder
+anzeige.liste.spalte.anbieter.unbekannt;unknown;unbekannt;onbekend
+anzeige.liste.spalte.titel;title;Titel;Aanduiding
+anzeige.liste.spalte.preis;price;Preis;prijs
+anzeige.liste.spalte.anzahl;Stock Level;Anzahl;aantal
+anzeige.liste.spalte.bestellt;ordered;bestellt;besteld
+anzeige.liste.spalte.ablaufdatum;valid until;Ablaufdatum;geldig tot
+anzeige.liste.spalte.loeschen;delete;löschen;wissen
+anzeige.liste.spalte.bearbeiten;edit;bearbeiten;bewerken
+anzeige.liste.neuanzeige;new ad;Neue Anzeige;nieuwe advertantie
+;;;
+anzeige.bearbeiten.titel;Edit ad {0};Anzeige {0} bearbeiten;Advertantie {0} bewerken
+anzeige.bearbeiten.neu.titel;Create new ad;Neue Anzeige anlegen;Nieuwe advertantie creëeren
+anzeige.anbieter;supplier;Anbieter;aanbieder
+anzeige.titel;title;Titel;Aanduiding
+anzeige.beschreibung;description;Beschreibung;Beschrijving
+anzeige.preis;price;Preis;prijs
+anzeige.anzahl;stock level;Anzahl;aantal
+anzeige.ablaufdatum;valid until;Ablaufdatum;geldig tot
+anzeige.bearbeiten.ok;ok;ok;ok
+anzeige.bearbeiten.abbrechen;cancel;abbrechen;annuleren
+anzeige.fehler.nichtgefunden;Advert with ID {0} not found;Anzeige mit ID {0} nicht gefunden;Advertentie met ID {0} niet gevonden

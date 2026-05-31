@@ -76,6 +76,12 @@
                 </div>
 
             </form>
+
+            <h3 th:text="#{benutzer.bestellungen.titel}">Bestellungen</h3>
+            <ul>
+                <li th:each="anzeige : ${bestellungen}" 
+                    th:text="${anzeige.titel}">Titel</li>
+            </ul>
         </main>
         <div th:replace="~{fragments/kopffuss :: fuss}"></div>
     </body>

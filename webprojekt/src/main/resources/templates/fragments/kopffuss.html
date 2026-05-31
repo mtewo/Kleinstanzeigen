@@ -6,9 +6,8 @@
         <div th:fragment="kopf">
             <nav>
                 <h1>Kleinstanzeigen</h1>
-                <a th:href="@{/admin/benutzer}" th:text="#{benutzer.liste.titel}">
-                    Benutzer
-                </a>
+                <a th:href="@{/admin/benutzer}" th:text="#{benutzer.liste.titel}">Benutzer</a>
+                <a th:href="@{/admin/anzeige}" th:text="#{anzeige.liste.titel}">Anzeigen</a>
                 <div>
                     <a th:href="@{?sprache=de}">DE</a>
                     <a th:href="@{?sprache=en}">EN</a>

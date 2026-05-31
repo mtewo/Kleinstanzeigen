@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" th:href="@{/css/benutzer.css}">
+</head>
+<body>
+ 
+    <div th:replace="~{fragments/kopffuss :: kopf}"></div>
+ 
+    <main>
+        <h2 th:text="#{anzeige.liste.titel}">Anzeigeliste</h2>
+ 
+        <table>
+            <thead>
+                <tr>
+                    <th th:text="#{anzeige.liste.spalte.anbieter}">Anbieter</th>
+                    <th th:text="#{anzeige.liste.spalte.titel}">Titel</th>
+                    <th th:text="#{anzeige.liste.spalte.preis}">Preis</th>
+                    <th th:text="#{anzeige.liste.spalte.anzahl}">Anzahl</th>
+                    <th th:text="#{anzeige.liste.spalte.bestellt}">bestellt</th>
+                    <th th:text="#{anzeige.liste.spalte.ablaufdatum}">Ablaufdatum</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="anzeige : ${anzeigeliste}">
+                    <td th:text="${anzeige.anbieter != null ? anzeige.anbieter.name : unbekannt }">Anbieter</td>
+                    <td th:text="${anzeige.titel}">Titel</td>
+                    <td th:text="${anzeige.preis}">0</td>
+                    <td th:text="${anzeige.anzahl}">0</td>
+                    <td th:text="${anzeige.besteller.size()}">0</td>
+                    <td th:text="${anzeige.ablaufdatum}">datum</td>
+                    <td>
+                        <a th:href="@{'/admin/anzeige/' + ${anzeige.id}}"
+                           th:text="#{anzeige.liste.spalte.bearbeiten}">bearbeiten</a>
+                    </td>
+                    <td>
+                        <a th:href="@{'/admin/anzeige/' + ${anzeige.id} + '/delete'}"
+                           th:text="#{anzeige.liste.spalte.loeschen}">löschen</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+ 
+        <div style="margin-top: 20px;">
+            <a th:href="@{/admin/anzeige/0}" th:text="#{anzeige.liste.neuanzeige}">Neue Anzeige</a>
+        </div>
+    </main>
+ 
+    <div th:replace="~{fragments/kopffuss :: fuss}"></div>
+ 
+</body>
+</html>

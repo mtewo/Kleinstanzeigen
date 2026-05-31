@@ -1,11 +1,15 @@
 package de.hsrm.mi.web.webprojekt.benutzer.ui;
 
 import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import de.hsrm.mi.web.webprojekt.benutzer.services.BenutzerService;
+import de.hsrm.mi.web.webprojekt.entities.anzeige.Anzeige;
 import de.hsrm.mi.web.webprojekt.entities.benutzer.Benutzer;
 import de.hsrm.mi.web.webprojekt.entities.benutzer.mapper.BenutzerMapper;
 import jakarta.validation.Valid;
@@ -38,7 +43,7 @@ public class BenutzerController {
     public Map<String,BenutzerFormular> initMap(){
         return new HashMap<>();
     }*/
-
+    @Transactional
     @GetMapping("/admin/benutzer/{loginname}")
     public String benutzerBearbeiten(@PathVariable String loginname, 
        /*  @ModelAttribute("formularMap") Map <String, BenutzerFormular> formularMap,*/ Model model) {
@@ -53,6 +58,13 @@ public class BenutzerController {
             Benutzer benutzer = benutzerOpt.get();
             BenutzerFormular formular = mapper.benutzerToBenutzerFormular(benutzer);
             model.addAttribute("formular", formular);
+
+            // Bestellungen alphabetisch sortiert ins Model
+            List<Anzeige> bestellungen = benutzer.getBestellungen()
+            .stream()
+            .sorted(Comparator.comparing(Anzeige::getTitel))
+            .collect(Collectors.toList());
+            model.addAttribute("bestellungen", bestellungen);
 
         } else {
 
@@ -107,7 +119,6 @@ public class BenutzerController {
 
 
         try {
-
         Benutzer benutzer = mapper.benutzerFormularToBenutzer(formular);
         benutzer. setLoginName(loginname);
 
@@ -118,7 +129,7 @@ public class BenutzerController {
                 // altes Passwort übernehmen
                 benutzer.setPasswort(vorhandener.get().getPasswort());
             }else{
-                throw new BenutzerException("Neuer Benutzer ohne Passwort");
+                throw new BenutzerException("new user without a password");
             }
         }
 
