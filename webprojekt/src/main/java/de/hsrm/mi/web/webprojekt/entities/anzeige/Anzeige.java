@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import de.hsrm.mi.web.webprojekt.entities.benutzer.Benutzer;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -24,6 +26,7 @@ public class Anzeige {
     @Id @GeneratedValue
     private long id;
 
+    @JsonIgnore
     @Version
     private long version = 0; 
 
@@ -44,9 +47,11 @@ public class Anzeige {
     @Future
     private LocalDate ablaufdatum;
 
+   
     @ManyToOne (optional=true)
     private Benutzer anbieter = null;
 
+    
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Benutzer> besteller = new ArrayList<>();
 

@@ -16,12 +16,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import de.hsrm.mi.web.webprojekt.benutzer.services.BenutzerService;
 import de.hsrm.mi.web.webprojekt.entities.anzeige.Anzeige;
 import de.hsrm.mi.web.webprojekt.entities.benutzer.Benutzer;
 import de.hsrm.mi.web.webprojekt.entities.benutzer.mapper.BenutzerMapper;
 import jakarta.validation.Valid;
+
 
 
 
@@ -173,6 +176,67 @@ public class BenutzerController {
         benutzerService.deleteBenutzerById(loginname);
 
         return "redirect:/admin/benutzer";
+    }
+
+    @GetMapping("/admin/benutzer/{loginName}/hx/feld/{feldname}")
+    public String getFeldname(@PathVariable String loginName, @PathVariable String feldname, Model model){
+        logger.info("GET  Feld {} des Benutzers {}", feldname, loginName);
+
+
+        Benutzer b = benutzerService.findBenutzerById(loginName).orElseThrow(()-> new BenutzerException("Benutzer existiert nicht"));
+        String wert = feldname.equals("name") ? b.getName() : b.geteMail();
+
+        model.addAttribute("loginName",loginName);
+        model.addAttribute("feldname",feldname);
+        model.addAttribute("wert",wert);
+
+        return "benutzer/eingabefeld :: bearbeiten";
+
+    }
+    @PutMapping("/admin/benutzer/{loginName}/hx/feld/{feldname}")
+    public String putNeuerFeldname(@PathVariable String loginName, @PathVariable String feldname, @RequestParam ("wert") String wert, Model model) {
+
+            try {
+
+        Benutzer benutzer =
+            benutzerService.aktualisiereBenutzerAttribut(
+                loginName,
+                feldname,
+                wert);
+
+        model.addAttribute("loginName", loginName);
+        model.addAttribute("feldname", feldname);
+        model.addAttribute("wert", wert);
+
+        return "benutzer/eingabefeld :: ausgeben";
+
+    } catch (Exception e) {
+
+        Optional<Benutzer> b = benutzerService.findBenutzerById(loginName);
+        Benutzer benutzer = b.get();
+
+        String alterWert;
+        String fehlertext;
+
+        if (feldname.equals("name")) {
+            alterWert = benutzer.getName();
+            fehlertext = "Größe muss zwischen 3 und 60 sein";
+        } else {
+            alterWert = benutzer.geteMail();
+            fehlertext = "muss eine korrekt formatierte E-Mail-Adresse sein";
+        }
+
+        model.addAttribute("loginName", loginName);
+        model.addAttribute("feldname", feldname);
+        model.addAttribute("wert", alterWert);
+        model.addAttribute("fehler", true);
+        model.addAttribute("fehlertext", fehlertext);
+        
+
+        return "benutzer/eingabefeld :: bearbeiten";
+    }
+        
+       
     }
 
     

@@ -3,6 +3,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <link rel="stylesheet" th:href="@{/css/benutzer.css}">
+    <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.10/dist/htmx.min.js" integrity="sha384-H5SrcfygHmAuTDZphMHqBJLc3FhssKjG7w/CeCpFReSfwBWDTKpkzPP8c+cLsK+V" crossorigin="anonymous"></script>
 </head>
 <body>
 
@@ -11,7 +12,7 @@
     <main>
         <h2 th:text="#{benutzer.liste.titel}">Benutzerliste</h2>
 
-        <table>
+        <table class="benutzer-tabelle">
             <thead>
                 <tr>
                     <th th:text="#{benutzer.liste.spalte.loginname}">Login</th>
@@ -26,8 +27,8 @@
             <tbody>
                 <tr th:each="benutzer : ${benutzerliste}">
                     <td th:text="${benutzer.loginName}">login</td>
-                    <td th:text="${benutzer.name}">name</td>
-                    <td th:text="${benutzer.eMail}">email</td>
+                    <td th:replace="~{benutzer/eingabefeld :: ausgeben(loginName=${benutzer.loginName},feldname=name,wert=${benutzer.name})}"></td>
+                    <td th:replace="~{benutzer/eingabefeld :: ausgeben(loginName=${benutzer.loginName},feldname=email,wert=${benutzer.eMail})}"></td>
                     <td th:text="${benutzer.rolle}">rolle</td>
 
                     <td>

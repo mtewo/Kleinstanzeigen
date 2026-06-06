@@ -41,10 +41,10 @@
                     <label th:text="#{benutzer.rolle}">Rolle:</label>
                     <div class="input-bereich">
                         <select th:field="*{rolle}">
-                            <option value=""> </option>
-                            <option value="ADMINISTRATOR">Administrator</option>
-                            <option value="ANBIETER">Anbieter</option>
-                            <option value="TESTER">Tester</option>
+                            <option value="" th:text="#{benutzer.rolle.bitte_wählen}"> bitte wählen</option>
+                            <option value="ADMINISTRATOR" th:text="#{benutzer.rolle.administrator}">Administrator</option>
+                            <option value="ANBIETER" th:text="#{benutzer.rolle.anbieter}">Anbieter</option>
+                            <option value="TESTER" th:text="#{benutzer.rolle.tester}">Tester</option>
                         </select>
                     </div>
                 </div>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <td th:fragment="ausgeben(loginName, feldname, wert)"> <!--Struktur des Fragments-->
+            <span th:text="${wert}" th:hx-get="@{/admin/benutzer/{loginName}/hx/feld/{feldname} (loginName=${loginName},feldname=${feldname})}" hx-target="closest td" hx-swap="outerHTML"></span> <!--welches Parameter vom Fragment gezeigt wird-->
+             
+            
+        </td>
+        <td th:fragment="bearbeiten(loginName,feldname,wert)">
+            <form class="inline-edit-form">
+                <input name="wert" th:value="${wert}"> <!--weil wert ein Thymeleaf-Variable ist-->
+                <button type="submit" th:hx-put="@{/admin/benutzer/{loginName}/hx/feld/{feldname}  (loginName=${loginName},feldname=${feldname})}" hx-target="closest td"hx-swap="outerHTML">ok</button>
+            </form>
+
+            <div class="fehler-text" 
+                th:if="${fehler}"
+                th:text="${fehlertext}">
+            </div>
+        </td>
+        
+
+    </body>
+</html>

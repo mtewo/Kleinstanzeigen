@@ -1,8 +1,8 @@
 package de.hsrm.mi.web.webprojekt.anzeige.services;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
@@ -12,12 +12,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
+import de.hsrm.mi.web.webprojekt.anzeige.ui.AnzeigeException;
 import de.hsrm.mi.web.webprojekt.entities.anzeige.Anzeige;
 import de.hsrm.mi.web.webprojekt.entities.anzeige.AnzeigeRepository;
-
-import de.hsrm.mi.web.webprojekt.anzeige.ui.AnzeigeException;
-
 import de.hsrm.mi.web.webprojekt.entities.benutzer.Benutzer;
 import de.hsrm.mi.web.webprojekt.entities.benutzer.BenutzerRepository;
 
@@ -112,7 +109,7 @@ public class AnzeigeServiceImpl implements AnzeigeService {
 
         Random random = new Random();
 
-        // Jedem Anzeige zufällig einen Anbieter zuordnen
+        // Jeder Anzeige zufällig einen Anbieter zuordnen
         for (Anzeige anzeige : alleAnzeigen) {
             Benutzer zufaelligerAnbieter = alleBenutzer.get(random.nextInt(alleBenutzer.size()));
             anzeige.setAnbieter(zufaelligerAnbieter);

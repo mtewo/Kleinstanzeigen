@@ -3,7 +3,11 @@ benutzer.name;Name;Name;Naam
 benutzer.email;E-Mail;E-Mail;E-mailadres
 benutzer.adresse;Adress;Addresse;adres
 benutzer.rolle;Role;Rolle;Rol
+benutzer.rolle.bitte_wählen;please_select;bitte_wählen;alstublieft_kiezen
 benutzer.rolle.admin;admin;Admin;admin
+benutzer.rolle.administrator;administrator;Administrator;administratie
+benutzer.rolle.anbieter;supplier;Anbieter;aanbieder
+benutzer.rolle.tester;tester;Tester;tester
 benutzer.rolle.kunde;customer;Kunde;klant
 benutzer.rolle.gesperrt;blocked;gesperrt;geblokkeerd
 benutzer.losung;Password;Passwort;Wachtwoord
