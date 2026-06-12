@@ -2,7 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
     <body>
         <td th:fragment="ausgeben(loginName, feldname, wert)"> <!--Struktur des Fragments-->
-            <span th:text="${wert}" th:hx-get="@{/admin/benutzer/{loginName}/hx/feld/{feldname} (loginName=${loginName},feldname=${feldname})}" hx-target="closest td" hx-swap="outerHTML"></span> <!--welches Parameter vom Fragment gezeigt wird-->
+            <span th:text="${wert}" th:hx-get="@{/admin/benutzer/{loginName}/hx/feld/{feldname} 
+                (loginName=${loginName},feldname=${feldname})}" hx-target="closest td" hx-swap="outerHTML"></span> <!--welches Parameter vom Fragment gezeigt wird-->
              
             
         </td>

@@ -33,7 +33,8 @@
                 <div class="feld">
                     <label th:text="#{benutzer.adresse}">Adresse:</label>
                     <div class="input-bereich">
-                        <input type="text" th:field="*{adresse}">
+                        <input type="text" th:field="*{adresse}" th:classappend="${#fields.hasErrors('adresse')} ? 'fehler'">
+                        <span class="fehler-text" th:if="${#fields.hasErrors('adresse')}" th:errors="*{adresse}"></span>
                     </div>
                 </div>
 

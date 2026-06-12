@@ -23,6 +23,8 @@ import de.hsrm.mi.web.webprojekt.benutzer.services.BenutzerService;
 import de.hsrm.mi.web.webprojekt.entities.anzeige.Anzeige;
 import de.hsrm.mi.web.webprojekt.entities.benutzer.Benutzer;
 import de.hsrm.mi.web.webprojekt.entities.benutzer.mapper.BenutzerMapper;
+import de.hsrm.mi.web.webprojekt.geo.GeoAdresse;
+import de.hsrm.mi.web.webprojekt.geo.GeoService;
 import jakarta.validation.Valid;
 
 
@@ -34,12 +36,14 @@ public class BenutzerController {
 
     private final BenutzerService benutzerService;
     private final BenutzerMapper mapper;
+    private final GeoService geoService;
 
     Logger logger = LoggerFactory.getLogger(BenutzerController.class);
 
-    public BenutzerController(BenutzerService benutzerSevice, BenutzerMapper mapper){
+    public BenutzerController(BenutzerService benutzerSevice, BenutzerMapper mapper, GeoService geoService){
         this.benutzerService = benutzerSevice;
         this.mapper = mapper;
+        this.geoService = geoService;
     }
 
    /*  @ModelAttribute("formularMap")
@@ -134,6 +138,26 @@ public class BenutzerController {
             }else{
                 throw new BenutzerException("new user without a password");
             }
+        }
+
+        // wenn Benutzer noch nicht existiert und das Adressenfeld nicht leer ist
+        boolean istNeu = benutzerService.findBenutzerById(loginname).isEmpty();
+
+        if (istNeu && !formular.getAdresse().isEmpty()){
+
+            List<GeoAdresse> treffer = geoService.findeAdressen(formular.getAdresse());
+
+            if(treffer.isEmpty()){
+                formularErrors.rejectValue(
+                    "adresse", 
+                    "benutzer.fehler.adresse", 
+                    "Adresse nicht gefunden");
+
+                return "benutzer/bearbeiten";
+            } else{
+
+                benutzer.setAdresse((treffer.get(0).display_name()));
+            }        
         }
 
             benutzerService.saveBenutzer(benutzer);
