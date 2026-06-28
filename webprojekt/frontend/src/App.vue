@@ -1,8 +1,14 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { RouterView, RouterLink } from 'vue-router';
 import AnzeigeListeView from './views/AnzeigeListeView.vue';
+import { useInfo } from '@/composables/useInfo'
+import LoginView from './views/LoginView.vue';
+import { useLogin } from '@/stores/loginstore.ts'
 
-const info = ref('Beachten Sie unsere aktuellen Anzeigen mit Sonderangeboten zur Ball-WM')
+const{ info, loescheInfo, setzeInfo } = useInfo()
+const  loginStore  = useLogin()
+
 
 
 </script>
@@ -12,12 +18,15 @@ const info = ref('Beachten Sie unsere aktuellen Anzeigen mit Sonderangeboten zur
 
   <nav>
       <h1>Kleinstanzeigen</h1>
-      <a href="/admin/benutzer">Benutzer</a>
-      <a href="/admin/anzeige">Anzeigen</a>
+      <!--<a href="/admin/benutzer">Benutzer</a>
+      <a href="/admin/anzeige">Anzeigen</a>-->
+      <RouterLink v-if="loginStore.loginState.loggedIn" to="/anzeige">Anzeigen</RouterLink>
       <div class="sprache">
-            <a href="?sprache=de">DE</a>
+            <!--<a href="?sprache=de">DE</a>
             <a href="?sprache=en">EN</a>
-            <a href="?sprache=nl">NL</a>
+            <a href="?sprache=nl">NL</a>-->
+            <RouterLink to="/login">Login</RouterLink>
+
       </div>
   </nav>
 
@@ -28,12 +37,15 @@ const info = ref('Beachten Sie unsere aktuellen Anzeigen mit Sonderangeboten zur
 
     <main>
       <!-- Hier kommt später RouterView oder AnzeigeListeView -->
-       <!--AnzeigeListeView einbetten-->
-       <AnzeigeListeView />
+       <!--AnzeigeListeView einbetten <AnzeigeListeView />-->
+       <RouterView/>
+       
+       <!--LoginView einbetten <LoginView/>-->
+       
 
     </main>
   <footer>
-      <p> 2026 Kleinstanzeigen</p>
+      {{loginStore.loginState.username}}
   </footer>
         
     

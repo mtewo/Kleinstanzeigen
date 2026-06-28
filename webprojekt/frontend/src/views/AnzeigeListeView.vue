@@ -2,87 +2,53 @@
   <div>
     <div>
       <h2 class="title">Unsere aktuellen Anzeigen</h2>
+      <input 
+        v-model="suchtext"
+        type="text"
+        placeholder="Suche..."
+      />
+      <button @click="resetSuche"> Reset </button>
+
+      <AnzeigeListe :anzeigen="gefilterteAnzeigen"/>
+
     </div>
-    <button @click="preiserhoehung" >Preis erhöhen</button>
+    
     <div>
-      <AnzeigeListe :anzeigen="liste"></AnzeigeListe> <!-- :der Wert wird als JS-Ausdruck übergeben (reaktive Bindung)-->
-    </div>
+      <!--<AnzeigeListe :anzeigen="anzeigeStore.anzeigedata.anzeigeliste"></AnzeigeListe> --><!-- :der Wert wird als JS-Ausdruck übergeben (reaktive Bindung)-->
+    </div> 
   </div>
 </template>
 
 
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import AnzeigeListe from '@/components/anzeige/AnzeigeListe.vue'
+  import AnzeigeListe from '@/components/anzeige/AnzeigeListe.vue'
+  import { ref, computed, onMounted } from 'vue';
+  import { useAnzeigeStore } from '@/stores/anzeigestore';
 
-export interface IAnzeigeDTD {
-  id: number
-  titel: string
-  beschreibung: string
-  preis: number
-  anzahl: number
-  verfuegbar: number
-  ablaufdatum: string
-  anbieterName: string
-  anbieterAdresse: string
-}
+  const anzeigeStore = useAnzeigeStore()
+  const suchtext = ref ('')
 
+  onMounted(() => {
+    anzeigeStore.updateAnzeigeListe()
+  })
 
-const liste = ref<IAnzeigeDTD[]>(
-  JSON.parse(`
-[
-  {
-    "id": 1,
-    "titel": "Orangenhammer",
-    "beschreibung": "Ein Hammer, der Orangen zerschmettert, und das gründlich.",
-    "preis": 10,
-    "anzahl": 20,
-    "verfuegbar": 17,
-    "ablaufdatum": "2026-08-17",
-    "anbieterName": "Joghurta Biffel",
-    "anbieterAdresse": "Rheinstraße 1, Wiesbaden"
-  },
-  {
-    "id": 2,
-    "titel": "Bananenbrecher",
-    "beschreibung": "Ein Gerät, das Bananen in Scheiben schneidet, ideal für Obstsalate.",
-    "preis": 15,
-    "anzahl": 30,
-    "verfuegbar": 25,
-    "ablaufdatum": "2026-09-01",
-    "anbieterName": "Trubert vom Senkel",
-    "anbieterAdresse": "Obstweg 5, Fruchtstadt"
-  },
-  {
-    "id": 3,
-    "titel": "Apfelzertrümmerer",
-    "beschreibung": "Ein robustes Werkzeug, das Äpfel in Stücke zerschmettert, perfekt für Apfelmus.",
-    "preis": 20,
-    "anzahl": 10,
-    "verfuegbar": 8,
-    "ablaufdatum": "2026-10-15",
-    "anbieterName": "Jöndhard Biffel",
-    "anbieterAdresse": "Kernstraße 12, Apfelhausen"
-  },
-  {
-    "id": 4,
-    "titel": "Traubenzerquetscher",
-    "beschreibung": "Ein praktisches Gerät, das Trauben zerquetscht, ideal für die Weinherstellung.",
-    "preis": 25,
-    "anzahl": 15,
-    "verfuegbar": 12,
-    "ablaufdatum": "2026-11-30",
-    "anbieterName": "Kees van Bommelding",
-    "anbieterAdresse": "Weinstraße 8, Traubendorf"
+  const gefilterteAnzeigen = computed(() => {
+    if (suchtext.value.trim() === ''){
+      return anzeigeStore.anzeigedata.anzeigeliste
+    }
+
+    const suche = suchtext.value.toLowerCase()
+
+    return anzeigeStore.anzeigedata.anzeigeliste.filter((anzeige) =>
+      anzeige.titel.toLowerCase().includes(suche) || anzeige.beschreibung.toLowerCase().includes(suche)
+    )
+  })
+
+  function resetSuche() {
+    suchtext.value = ''
   }
-]
-`),
-)
 
-function preiserhoehung(){
-  liste.value[0].preis +=10 /*value[0]= Index also erstes Array Element*/
-}
 </script>
 
 

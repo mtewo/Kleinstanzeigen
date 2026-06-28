@@ -1,5 +1,5 @@
 <script setup lang="ts"> /*<!--sonst import type nut in typescript files-->*/
-    import type {IAnzeigeDTD} from '@/views/AnzeigeListeView.vue'
+    import type {IAnzeigeDTD} from '@/stores/IAnzeige.ts'
     import AnzeigeListeZeile from './AnzeigeListeZeile.vue'
 
     defineProps<{
