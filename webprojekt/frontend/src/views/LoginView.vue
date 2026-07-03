@@ -27,8 +27,21 @@
         }
     }
 </script>
-<template>
+<!--<template>
     <input type="text"  v-model="username"> <br/>
     <input type="password"  v-model="passwort"> <br/>
     <button @click="handleLogin">Login</button>
+</template>-->
+<template>
+  <form class="login-formular" @submit.prevent="handleLogin">
+    <div class="feld">
+      <label>Login:</label>
+      <input type="text" v-model="username">
+    </div>
+    <div class="feld">
+      <label>Passwort:</label>
+      <input type="password" v-model="passwort">
+    </div>
+    <button type="submit">Login</button>
+  </form>
 </template>

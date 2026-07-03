@@ -2,13 +2,14 @@
   <div>
     <div>
       <h2 class="title">Unsere aktuellen Anzeigen</h2>
-      <input 
-        v-model="suchtext"
-        type="text"
-        placeholder="Suche..."
-      />
-      <button @click="resetSuche"> Reset </button>
-
+      <div class="suchleiste">
+        <input 
+          v-model="suchtext"
+          type="text"
+          placeholder="Suche..."
+        />
+        <button @click="resetSuche"> Reset </button>
+      </div>  
       <AnzeigeListe :anzeigen="gefilterteAnzeigen"/>
 
     </div>

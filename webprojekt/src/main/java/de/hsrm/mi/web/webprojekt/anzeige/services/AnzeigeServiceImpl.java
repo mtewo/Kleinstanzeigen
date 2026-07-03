@@ -8,6 +8,7 @@ import java.util.Random;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +18,7 @@ import de.hsrm.mi.web.webprojekt.entities.anzeige.Anzeige;
 import de.hsrm.mi.web.webprojekt.entities.anzeige.AnzeigeRepository;
 import de.hsrm.mi.web.webprojekt.entities.benutzer.Benutzer;
 import de.hsrm.mi.web.webprojekt.entities.benutzer.BenutzerRepository;
+import de.hsrm.mi.web.webprojekt.messaging.FrontendNachrichtEvent;
 
 @Service
 public class AnzeigeServiceImpl implements AnzeigeService {
@@ -25,18 +27,36 @@ public class AnzeigeServiceImpl implements AnzeigeService {
  
     private final AnzeigeRepository anzeigeRepository;
     private final BenutzerRepository benutzerRepository;
+    private final ApplicationEventPublisher eventPublisher;
  
-    public AnzeigeServiceImpl(AnzeigeRepository anzeigeRepository, BenutzerRepository benutzerRepository) {
+    public AnzeigeServiceImpl(AnzeigeRepository anzeigeRepository, BenutzerRepository benutzerRepository, ApplicationEventPublisher eventPublisher) {
         this.anzeigeRepository = anzeigeRepository;
         this.benutzerRepository = benutzerRepository;
+        this.eventPublisher = eventPublisher;
     }
  
     @Override
+    @Transactional
     public Anzeige saveAnzeige(Anzeige anzeige) {
         logger.info("saveAnzeige: {}", anzeige);
+
+        boolean istNeu = anzeige.getId() == 0;
+
         try {
-            return anzeigeRepository.save(anzeige);
-        } catch (Exception e) {
+            Anzeige gespeichert = anzeigeRepository.save(anzeige);
+            // var, da Typ zu Laufzeitaus der rechten Seite abgeleitet wird
+            var operation = istNeu ? FrontendNachrichtEvent.Operation.CREATE : FrontendNachrichtEvent.Operation.UPDATE;
+
+            eventPublisher.publishEvent(
+                new FrontendNachrichtEvent(FrontendNachrichtEvent.NachrichtenTyp.ANZEIGE, gespeichert.getId(), operation)
+            );
+            //Thread.sleep(1000); // TESTWEISE: simuliert langsame DB/Transaktion
+            return gespeichert;
+
+        } /*catch (InterruptedException e ){
+            Thread.currentThread().interrupt();
+            throw new RuntimeException(e.getMessage());
+        }*/catch (Exception e) {
             logger.error("Fehler beim Speichern: {}", e.getMessage());
             throw new RuntimeException(e.getMessage());
         }
@@ -55,9 +75,14 @@ public class AnzeigeServiceImpl implements AnzeigeService {
     }
  
     @Override
+    @Transactional
     public void deleteAnzeigeById(long id) {
         logger.info("deleteAnzeigeById: {}", id);
         anzeigeRepository.deleteById(id);
+
+        eventPublisher.publishEvent(new FrontendNachrichtEvent(FrontendNachrichtEvent.NachrichtenTyp.ANZEIGE, id, FrontendNachrichtEvent.Operation.DELETE));
+        // @Transactional, sorgt dafür das EventPublisher das gleiche Ereignis löscht wie die Methode, 
+        // da eventPublisher nach Datenabnkzugriff erfolgt 
     }
 
     @Override

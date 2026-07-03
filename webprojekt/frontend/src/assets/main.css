@@ -5,8 +5,8 @@
 }
 
 body {
-  font-family: sans-serif;
-  background-color: #f0f4ff;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  background-color: #cfc7fd;
   color: #222;
 }
 
@@ -20,7 +20,7 @@ nav {
   display: flex;
   align-items: center;
   gap: 1rem;
-  padding: 0.8rem 1.5rem;
+  padding: 15px 20px;
   background-color: #010a72;
   color: white;
 }
@@ -32,26 +32,23 @@ nav h1 {
 }
 
 nav a {
-  justify-content: space-between;
   color: #ffffff;
   text-decoration: none;
   padding-left: 0.5rem;
   padding-right: 0.5rem;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
 }
 
 nav a:hover {
-  color: #aac4ff;
+  text-decoration: underline;
 }
 
 main {
-  padding: 1.5rem;
+  padding: 20px 40px;
   flex: 1;
 }
 
 footer {
-  padding: 1rem;
+  padding: 15px 20px;
   text-align: center;
   background-color: #010a72;
   color: white;
@@ -67,8 +64,133 @@ footer {
   border: 1px solid #ee1d1d;
   border-radius: 4px;
 }
+
 .sprache {
   margin-left: auto;
   gap: 0.5rem;
-  display:felx;
+  display: flex;
+}
+
+/* --- Tabelle (übernommen aus benutzer.css) --- */
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 80%;
+  margin: 20px auto;
+  background-color: #e2e9ff;
+  border-radius: 10px;
+}
+
+th, td {
+  border: 1px solid #99a8d9;
+  padding: 6px 12px;
+  text-align: left;
+}
+
+th + th, td + td {
+  border-left: none;
+}
+
+tr + tr th,
+tr + tr td {
+  border-top: none;
+}
+
+thead th:first-child { border-radius: 10px 0 0 0; }
+thead th:last-child  { border-radius: 0 10px 0 0; }
+tbody tr:last-child td:first-child { border-radius: 0 0 0 10px; }
+tbody tr:last-child td:last-child  { border-radius: 0 0 10px 0; }
+
+/* "+"-Button in der Tabelle wie ein kleiner Link-Button */
+td button {
+  padding: 2px 8px;
+  border-radius: 6px;
+  border: none;
+  font-size: 0.85rem;
+  color: white;
+  background-color: #010a72;
+  cursor: pointer;
+}
+td button:hover {
+  background-color: #1a2a9e;
+}
+.suchleiste {
+  display: flex;
+  gap: 8px;
+  margin: 15px 0;
+}
+
+.suchleiste input[type="text"] {
+  padding: 6px 10px;
+  font-size: 1em;
+  border: 1px solid #99a8d9;
+  border-radius: 8px;
+  box-sizing: border-box;
+  min-width: 220px;
+}
+
+.suchleiste input[type="text"]:focus {
+  outline: none;
+  border-color: #010a72;
+}
+
+.suchleiste button {
+  padding: 6px 16px;
+  font-size: 0.9em;
+  border: none;
+  border-radius: 8px;
+  background-color: #010a72;
+  color: white;
+  cursor: pointer;
+}
+
+.suchleiste button:hover {
+  background-color: #1a2a9e;
+}
+.login-formular {
+  width: 350px;
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.login-formular .feld {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.login-formular label {
+  font-size: 1.1em;
+}
+
+.login-formular input[type="text"],
+.login-formular input[type="password"] {
+  padding: 6px 10px;
+  font-size: 1em;
+  border: 1px solid #99a8d9;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+.login-formular input[type="text"]:focus,
+.login-formular input[type="password"]:focus {
+  outline: none;
+  border-color: #010a72;
+}
+
+.login-formular button {
+  align-self: flex-start;
+  padding: 6px 20px;
+  border: none;
+  border-radius: 8px;
+  background-color: #010a72;
+  color: white;
+  font-size: 1em;
+  cursor: pointer;
+}
+
+.login-formular button:hover {
+  background-color: #1a2a9e;
 }

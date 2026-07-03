@@ -1,6 +1,9 @@
 import { reactive, readonly, computed } from 'vue';
 import { defineStore } from 'pinia';
 import type { IAnzeigeDTD } from './IAnzeige';
+import { useInfo } from '@/composables/useInfo'
+import { Client } from '@stomp/stompjs'
+import type { IFrontendNachrichtEvent } from '@/services/IFrontendNachrichtEvent.ts'
 
 
 export const useAnzeigeStore = defineStore("anzeigestore", () => {
@@ -9,54 +12,97 @@ export const useAnzeigeStore = defineStore("anzeigestore", () => {
         anzeigeliste: []
     });
 
-    function updateAnzeigeListe (): void {
-        anzeigedata.anzeigeliste = [
-            {
-                id: 1,
-                titel: "Orangenhammer",
-                beschreibung: "Ein Hammer, der Orangen zerschmettert, und das gründlich.",
-                preis: 10,
-                anzahl: 20,
-                verfuegbar: 17,
-                ablaufdatum: "2026-08-17",
-                anbieterName: "Joghurta Biffel",
-                anbieterAdresse: "Rheinstraße 1, Wiesbaden"
-            },
-            {
-                id: 2,
-                titel: "Bananenbrecher",
-                beschreibung: "Ein Gerät, das Bananen in Scheiben schneidet, ideal für Obstsalate.",
-                preis: 15,
-                anzahl: 30,
-                verfuegbar: 25,
-                ablaufdatum: "2026-09-01",
-                anbieterName: "Trubert vom Senkel",
-                anbieterAdresse: "Obstweg 5, Fruchtstadt"
-            },
-            {
-                id: 3,
-                titel: "Apfelzertrümmerer",
-                beschreibung: "Ein robustes Werkzeug, das Äpfel in Stücke zerschmettert, perfekt für Apfelmus.",
-                preis: 20,
-                anzahl: 10,
-                verfuegbar: 8,
-                ablaufdatum: "2026-10-15",
-                anbieterName: "Jöndhard Biffel",
-                anbieterAdresse: "Kernstraße 12, Apfelhausen"
-            },
-            {
-                id: 4,
-                titel: "Traubenzerquetscher",
-                beschreibung: "Ein praktisches Gerät, das Trauben zerquetscht, ideal für die Weinherstellung.",
-                preis: 25,
-                anzahl: 15,
-                verfuegbar: 12,
-                ablaufdatum: "2026-11-30",
-                anbieterName: "Kees van Bommelding",
-                anbieterAdresse: "Weinstraße 8, Traubendorf"
+    let stompClient: Client | null = null;
+
+    async function updateAnzeigeListe (): Promise<void> {
+        const { setzeInfo } = useInfo()
+        try{
+            const response = await fetch('api/anzeige')   // gesamte Liste wird vom Server geholt
+
+            if(response.ok){
+                const daten = await response.json()
+                anzeigedata.anzeigeliste = daten
+                anzeigedata.ok = true
+                startAnzeigeLiveUpdate()
+            } else {
+                anzeigedata.anzeigeliste = []
+                anzeigedata.ok = false
+                setzeInfo(response.statusText)
             }
-        ];
-        anzeigedata.ok = true;
+        
+        }
+        catch(error){ // Netzwerkfehler
+            anzeigedata.anzeigeliste = []
+            anzeigedata.ok = false
+            setzeInfo(String(error))
+        }
+        
+    }
+
+    function startAnzeigeLiveUpdate(): void {
+
+        const { setzeInfo } = useInfo()
+
+        if (stompClient) {
+            // Es existiert schon ein Client, nichts weiter zu tun
+            return
+        }
+
+            stompClient = new Client({
+                brokerURL: `ws://${window.location.host}/stompbroker`,   // Frontend redet nur mit dem ladenden Server, Vite-proxy leitet /stompbroker ans Backend
+                onConnect: () => {
+                    console.log('STOMP verbunden')
+                    stompClient!.subscribe('/topic/anzeige', async (message) => {
+                        const event: IFrontendNachrichtEvent = JSON.parse(message.body)
+                        console.log(JSON.stringify(event))
+
+                        /*if (event.typ === 'ANZEIGE') { // bei jedem Event mit typ ANZEIGE schmeisßt ganze Anzeigenliste weg und holt die ganze aktualisierte
+                            updateAnzeigeListe()
+                        }*/
+                         if (event.typ !== 'ANZEIGE') return
+
+                        if (event.operation === 'DELETE') {
+                            // lokal entfernen, kein Server-Roundtrip nötig
+                            anzeigedata.anzeigeliste = anzeigedata.anzeigeliste.filter(
+                            a => a.id !== event.id
+                            )
+                            return
+                        }
+                         // CREATE oder UPDATE: einzelnen Datensatz nachladen
+                        try {
+                            const response = await fetch(`/api/anzeige/${event.id}`)
+                            if (!response.ok) {
+                            setzeInfo(response.statusText)
+                            return
+                            }
+                            const aktualisiert: IAnzeigeDTD = await response.json()
+
+                            const index = anzeigedata.anzeigeliste.findIndex(a => a.id === event.id)
+                            if (index !== -1) {
+                            // UPDATE: bestehenden Eintrag ersetzen
+                            anzeigedata.anzeigeliste[index] = aktualisiert
+                            } else {
+                            // CREATE: neuen Eintrag hinzufügen
+                            anzeigedata.anzeigeliste.push(aktualisiert)
+                            }
+                        } catch (e) {
+                            setzeInfo('Fehler beim Nachladen der Anzeige')
+                            console.log(e)
+                        }
+                    })
+                },
+                onStompError: (frame) => {
+                    console.log('STOMP Fehler', frame)
+                    setzeInfo('Fehlery bei Live-Update-Verbindung: ' + frame.headers['message'])
+                },
+                onWebSocketError: (event) => {
+                    console.log('WebSocket Fehler', event)
+                    setzeInfo('Fehler bei Live-Update-Verbindung')
+                }
+        })
+
+        stompClient.activate()
+
     }
 
     return {
