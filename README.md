@@ -1,12 +1,9 @@
 # "Kleinstanzeigen" Web-Application
 
-A full-stack web application for managing advertisements,
-developed as part of the **Web-Based Applications** module in the Media
-computer science program.
+Project developed as part of the **Web-Based Applications** Module
+Hochschule RheinMain | Summer Semester 2026
 
-The application consists of a **Vue.js frontend** and a **Spring Boot
-backend** that communicate via REST APIs. Additionally, changes to
-advertisements are broadcast to all connected clients in real time using
+The full-stack web application for managing advertisments consists of a **Vue.js frontend** and a **Spring Boot backend** that communicate via REST APIs. Additionally, changes to advertisements are broadcast to all connected clients in real time using
 **WebSockets (STOMP)**.
 
 ------------------------------------------------------------------------
@@ -92,21 +89,8 @@ Backend:
 http://localhost:8080
 ```
 
-------------------------------------------------------------------------
-
-## Project Highlights
-
--   Development of a full-stack web application using Vue.js and Spring
-    Boot
--   RESTful communication between frontend and backend
--   Reactive state management with Pinia
--   Real-time updates via WebSockets (STOMP)
--   Integration of the Vite proxy for frontend-backend communication
--   Event-driven architecture using Spring Events
--   Clean separation of frontend, backend, and persistence layers
 
 ------------------------------------------------------------------------
 
-Developed as part of the **Web-Based Applications** course during the
-**4th semester** of the **Media Informatics** program at **Hochschule
-RheinMain University of Applied Sciences**.
+Developed as part of the **Web-Based Applications** module during the
+**4th semester** of the **Media Computer Science** program.
