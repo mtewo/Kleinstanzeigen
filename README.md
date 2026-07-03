@@ -1,10 +1,8 @@
 # "Kleinstanzeigen" Web-Application
-
 **Project developed as part of the "Web-Based Applications" Module**
 Hochschule RheinMain | Summer Semester 2026
 
-The full-stack web application for managing advertisments consists of a **Vue.js frontend** and a **Spring Boot backend** that communicate via REST APIs. Additionally, changes to advertisements are broadcast to all connected clients in real time using
-**WebSockets (STOMP)**.
+The full-stack web application for managing advertisments consists of a **Vue.js frontend** and a **Spring Boot backend** that communicate via REST APIs. Additionally, changes to advertisements are broadcast to all connected clients in real time using **WebSockets (STOMP)**.
 
 ------------------------------------------------------------------------
 
