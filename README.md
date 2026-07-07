@@ -16,7 +16,6 @@ The full-stack web application for managing advertisments consists of a **Vue.js
 -   Real-time advertisement updates using WebSockets (STOMP)
 -   User-friendly error messages displayed in information boxes
 -   Client-side navigation with Vue Router
--   Reactive state management using Pinia
 
 ------------------------------------------------------------------------
 
@@ -58,8 +57,8 @@ Database](https://img.shields.io/badge/H2_Database-0078D4?style=for-the-badge)
 ### Clone the Repository
 
 ``` bash
-git clone https://github.com/<your-username>/<repository>.git
-cd <repository>
+git clone https://github.com/mtewo/Kleinstanzeigen.git
+cd webprojekt
 ```
 
 ### Start the Backend
