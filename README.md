@@ -51,7 +51,7 @@ Database](https://img.shields.io/badge/H2_Database-0078D4?style=for-the-badge)
 
 ``` bash
 git clone https://github.com/mtewo/Kleinstanzeigen.git
-cd webprojekt
+cd Kleinstanzeigen/webprojekt
 ```
 
 ### Start the Backend
