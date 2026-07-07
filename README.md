@@ -39,13 +39,6 @@ Database](https://img.shields.io/badge/H2_Database-0078D4?style=for-the-badge)
 
 ------------------------------------------------------------------------
 
-## Screenshots
-
-> *Screenshots of the login page, advertisement overview, and live
-> updates can be added here.*
-
-------------------------------------------------------------------------
-
 ## Getting Started
 
 ### Prerequisites
