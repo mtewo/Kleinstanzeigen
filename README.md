@@ -44,6 +44,7 @@ Database](https://img.shields.io/badge/H2_Database-0078D4?style=for-the-badge)
 ### Prerequisites
 
 -   Java 21
+-   Python 3
 -   Node.js
 -   Gradle
 
