@@ -74,12 +74,16 @@ Frontend:
 ``` text
 http://localhost:5173
 ```
+Loginname: admin
+Passwort: admin
 
 Backend:
 
 ``` text
 http://localhost:8080
 ```
+Loginname: admin
+Passwort: admin
 
 
 ------------------------------------------------------------------------
